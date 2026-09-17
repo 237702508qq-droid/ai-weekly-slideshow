@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI 一周大事记（2026.9.10–9.16）</title>
+<!--
+  独立运行包装页（standalone harness）
+  - 本地加载 node_modules/hyperframes/dist 的两个全局 bundle（复制到 vendor/，无构建工具）
+  - composition/index.html 为 HyperFrames 合成（12 个场景：10 主线 + 2 分支）
+  - <hyperframes-slideshow> 从自身 innerHTML 读取 JSON island（与合成内 island 保持同步）
+-->
+<script src="vendor/hyperframes-player.global.js"></script>
+<script src="vendor/hyperframes-slideshow.global.js"></script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #07090f; }
+  body { font-family: "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<!--
+  tabindex="0" 是必须的：<hyperframes-slideshow> 把 keydown 绑定在自身元素上，
+  没有 tabindex 就收不到方向键。
+-->
+<hyperframes-slideshow
+  tabindex="0"
+  notes-storage-key="ai-weekly-2026-09-16"
+  style="display:block;position:relative;width:100vw;height:100vh"
+>
+  <hyperframes-player
+    interactive
+    style="position:absolute;inset:0"
+    src="composition/index.html"
+  ></hyperframes-player>
+
+  <!--
+    复制的 JSON island（island 必须同时存在于合成 HTML 与本包装页）。
+    schema（hyperframes 0.8.41 bundle 校验）：
+      slides:        SlideRef[]  — 主线，按顺序
+      slideSequences: SlideSequence[] — 热点分支序列
+    SlideRef:   { sceneId: string, notes?: string, fragments?: number[], hotspots?: Hotspot[] }
+    Hotspot:    { id: string, label: string, target: string, region?: {x,y,w,h} (0–100) }
+    SlideSequence: { id: string, label: string, slides: SlideRef[] }
+    fragments 为合成绝对秒，必须落在对应场景 [data-start, data-start+data-duration] 内。
+  -->
+  <script type="application/hyperframes-slideshow+json">
+    {
+      "slides": [
+        {
+          "sceneId": "cover",
+          "notes": "开场：本周只有一条主线——嘴上喊刹车，手上踩油门。停 1 秒再翻页。"
+        },
+        {
+          "sceneId": "overview",
+          "notes": "五个关键词各 10 秒：Astra 发布、三巨头联手、言行不一、研究员出走、Agent 失控。观众只需要记住这五件事。",
+          "fragments": [9.4]
+        },
+        {
+          "sceneId": "astra",
+          "notes": "先抛 Critical 风险等级和 59.3% 得分，再解释 Hugging Face 事件背景。强调：这是第一次有模型被内部评为最高危。",
+          "fragments": [21.4, 21.8, 22.2, 22.6, 23.0]
+        },
+        {
+          "sceneId": "summit",
+          "notes": "Bloomberg 独家。强调发布间隔从 37.5 天缩到 11 天——这是三巨头坐下来谈的根本原因。Amodei 三步计划按顺序讲。",
+          "fragments": [34.4, 34.8, 35.2, 35.6]
+        },
+        {
+          "sceneId": "brakegas",
+          "notes": "本页最抓眼球。先讲周末喊减速 → 周一灰度测试的反差，再给两个分支卡片让观众选：看 OpenAI 的 GPT-6 Sol 还是 Anthropic 的 Opus 5.2。最后用三星/海力士股价收尾。",
+          "fragments": [46.4, 46.8, 47.2, 47.6],
+          "hotspots": [
+            {
+              "id": "h-sol",
+              "label": "看看 OpenAI 在测什么：GPT-6 Sol",
+              "target": "p5-sol",
+              "region": { "x": 8, "y": 58, "w": 42, "h": 10 }
+            },
+            {
+              "id": "h-opus",
+              "label": "看看 Anthropic 在测什么：Opus 5.2",
+              "target": "p5-opus",
+              "region": { "x": 52, "y": 58, "w": 42, "h": 10 }
+            }
+          ]
+        },
+        {
+          "sceneId": "exodus",
+          "notes": "Coxon 的辞职信是本周传播最广的一条（36 小时 1.53 亿浏览）。注意语气：不是恐慌营销，是从业者的真实不安。",
+          "fragments": [73.4, 73.8, 74.2, 74.6]
+        },
+        {
+          "sceneId": "agent",
+          "notes": "按时间线从 7 月讲到 9.10。德国论坛留言板和基孔肯雅病毒两件事最值得展开。",
+          "fragments": [85.4, 85.8, 86.2, 86.6, 87.0]
+        },
+        {
+          "sceneId": "money",
+          "notes": "Anthropic 估值首超 OpenAI 是分水岭。人才流动点名 John Jumper（诺奖得主）最有冲击力。",
+          "fragments": [97.4, 97.8, 98.2, 98.6]
+        },
+        {
+          "sceneId": "you",
+          "notes": "落到普通用户：订阅怎么选、机会在哪、风险是什么。Sol 灰度中的性价比路线可以多说一句。",
+          "fragments": [109.4, 109.8, 110.2]
+        },
+        {
+          "sceneId": "outlook",
+          "notes": "结束语逐字读：一脚半刹车，油门焊在地板上。停两秒再合上。",
+          "fragments": [121.4, 121.8, 122.2, 122.6]
+        }
+      ],
+      "slideSequences": [
+        {
+          "id": "p5-sol",
+          "label": "灰度中的 OpenAI：GPT-6 Sol",
+          "slides": [
+            {
+              "sceneId": "sol",
+              "notes": "低成本版 Astra，瞄准 200 美元/月以下档位。讲完按 ← 回 P5，再选另一张卡。"
+            }
+          ]
+        },
+        {
+          "id": "p5-opus",
+          "label": "灰度中的 Anthropic：Opus 5.2",
+          "slides": [
+            {
+              "sceneId": "opus",
+              "notes": "对位 Astra 的旗舰升级，SVG/3D 能力增强，只在 Claude Code 可见。讲完按 ← 回 P5。"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+</hyperframes-slideshow>
+<!-- 内置 Present 按钮由 <hyperframes-slideshow> 渲染在导航胶囊上，请勿另加 -->
+</body>
+</html>
